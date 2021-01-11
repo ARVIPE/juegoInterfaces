@@ -15,9 +15,7 @@ var game = (function () {
         WIDTH = 150,
         HEIGHT = 100,
         CAMIONWIDTH = 150,
-        CAMIONHEIGHT = 100,
-        mySound,
-        myMusic;
+        CAMIONHEIGHT = 100;
 
     //Declaramos array de obstaculos
     obst = [];
@@ -31,7 +29,9 @@ var game = (function () {
     var CoorX = 350;
     var CoorY = 0;
 
-    var dificultad = 0.01;
+    var dificultad = -1;
+    var contador = 0;
+    var total;
 
     window.onload = init;
 
@@ -45,10 +45,7 @@ var game = (function () {
         // Lo primero es comenzar a cargar las imágenes
         preloadImages();
 
-        alert("Eres un piloto que debe esquivar las turbulencias para volver a casa");
 
-        myMusic = new sound("musicaComienzo.mp3");
-        myMusic.play();
 
         // Obtención del elemento html con id = "canvas". Puedes mirar el código html para entender mejor esto
         canvas = document.getElementById('canvas');
@@ -61,22 +58,6 @@ var game = (function () {
 
         
     }
-
-    function sound(src) {
-        this.sound = document.createElement("audio");
-        this.sound.src = src;
-        this.sound.setAttribute("preload", "auto");
-        this.sound.setAttribute("controls", "none");
-        this.sound.style.display = "none";
-        document.body.appendChild(this.sound);
-        this.play = function(){
-            this.sound.play();
-        }
-        this.stop = function(){
-            this.sound.pause();
-        }    
-    }
-    
 
 
     function drawScore() {
@@ -99,16 +80,21 @@ var game = (function () {
         window.requestAnimationFrame(gameLoop);
     }
     
-   
-
-
     //Creamos una clase para los obstaculos
     class Obstaculo {
         constructor() {
             this.x = canvas.width;
             this.y = this.getRandomY();
-            this.vx = -1;
+            this.vx = this.getVelocidad();
             this.imgSprite = imgCamion;
+        }
+
+        getVelocidad(){
+           
+            total = dificultad + contador;
+
+            return total;
+            
         }
 
         getRandomY() {
@@ -128,12 +114,11 @@ var game = (function () {
 
         }
         eliminar() {
-            if (this.x == 0) {
+            if (this.x < 0) {
                 obst.shift();
-                dificultad += 0.001;
-                console.log(dificultad);
-                puntos += 1;
-                
+                puntos += 1;   
+                contador += -0.03;
+                console.log(total);
             }
         }
 
@@ -152,11 +137,11 @@ var game = (function () {
                             if (CoorY + 50 < this.y) {
 
                             } else {
-                                ctx.clearRect(0, 0, 899, 560);
-                                ctx.drawImage(imgFondo, 0, 0, 899, 560);
-                                ctx.drawImage(imgGameOver, 0, 0, 899, 560);
                                 terminar = true;
                                 window.onload = finish;
+                                ctx.clearRect(0, 0, 900, 900);
+                                ctx.drawImage(imgFondo, 0, 0, 899, 560);
+                                ctx.drawImage(imgGameOver, 0, 0, 899, 560);
 
 
                             }
@@ -170,9 +155,13 @@ var game = (function () {
 
     function getTransitoryItems() {
 
-        if (Math.random() < dificultad && obst.length <= 15) {
+        if (Math.random() < 0.01) {
             obst.push(new Obstaculo())
 
+        }
+
+        if(obst.length == null){
+            obst.push(new Obstaculo())
         }
     }
 
@@ -309,6 +298,11 @@ var game = (function () {
                 CoorX = canvas.width - this.WIDTH
             }
 
+            if(CoorX >= 770){
+                CoorX = 770;
+            }
+
+
         }
 
     }
@@ -323,6 +317,7 @@ var game = (function () {
         if(CoorX <= 0){
             CoorX = 0;
         }
+        
 
     }
 
