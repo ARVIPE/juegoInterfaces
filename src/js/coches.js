@@ -5,20 +5,18 @@ var game = (function () {
         ctx,
         imgFondo, // Imagen del background del juego
         imgCargadas = 0, // Control de la cantidad de imágenes cargadas
-        imgCoche, // Imagen del coche
-        imgCamion, // Imagen de camión
+        imgAvion, // Imagen del avion
+        imgNube, // Imagen de nube
         imgGameOver, //Imagen game over
         terminar = new Boolean(false),
         puntos = 0,
-        vx = 1,
-        tempscore = 0,
         WIDTH = 150,
         HEIGHT = 100,
-        CAMIONWIDTH = 150,
-        CAMIONHEIGHT = 100;
+        AVIONWIDTH = 150,
+        AVIONHEIGHT = 100;
 
     //Declaramos array de obstaculos
-    obst = [];
+    var obst = [];
     var lastRandomValue, exampleArray = [-84, -56, -28, 0, 28, 56, 84, 112, 140, 168, 196, 224, 252, 280, 308, 336, 364, 392, 420, 448, 476, 504, 532, 560];
 
     //Coordenadas obstaculos
@@ -86,7 +84,7 @@ var game = (function () {
             this.x = canvas.width;
             this.y = this.getRandomY();
             this.vx = this.getVelocidad();
-            this.imgSprite = imgCamion;
+            this.imgSprite = imgNube;
         }
 
         getVelocidad(){
@@ -108,9 +106,9 @@ var game = (function () {
             }
         }
         paint() {
-            //ctx.clearRect(this.x+1, this.y, CAMIONWIDTH ,CAMIONHEIGHT);
-            ctx.drawImage(this.imgSprite, this.x, this.y, CAMIONWIDTH, CAMIONHEIGHT);
-            //ctx.rect(this.x, this.y, CAMIONWIDTH, CAMIONHEIGHT);
+            
+            ctx.drawImage(this.imgSprite, this.x, this.y, AVIONWIDTH, AVIONHEIGHT);
+            
 
         }
         eliminar() {
@@ -169,8 +167,8 @@ var game = (function () {
         for (let i = 0; i < obst.length; i++) {
             obst[i].mover();
             obst[i].paint();
-            obst[i].eliminar();
             obst[i].getCollisions();
+            obst[i].eliminar();
         }
     }
 
@@ -210,9 +208,9 @@ var game = (function () {
             paintEscena();
         }, false);
 
-        imgCoche = new Image();
-        imgCoche.src = 'images/avion.png';
-        imgCoche.addEventListener('load', function () {
+        imgAvion = new Image();
+        imgAvion.src = 'images/avion.png';
+        imgAvion.addEventListener('load', function () {
             imgCargadas++;
             paintEscena();
         }, false);
@@ -244,9 +242,9 @@ var game = (function () {
         });
 
         // Carga de la imagen del fondo del juego
-        imgCamion = new Image();
-        imgCamion.src = 'images/nube.png';
-        imgCamion.addEventListener('load', function () {
+        imgNube = new Image();
+        imgNube.src = 'images/nube.png';
+        imgNube.addEventListener('load', function () {
             // Este trozo de código se ejecutará de manera asíncrona cuando la imagen se haya realmente cargado.
             imgCargadas++;
             paintEscena();
@@ -278,7 +276,7 @@ var game = (function () {
     function paintFondo() {
         // Pinto el fondo de la escena
         ctx.drawImage(imgFondo, 0, 0, 899, 560);
-        ctx.drawImage(imgCoche, CoorX, CoorY, WIDTH, HEIGHT);
+        ctx.drawImage(imgAvion, CoorX, CoorY, WIDTH, HEIGHT);
         bucleobs();
 
 
