@@ -19,10 +19,6 @@ var game = (function () {
     var obst = [];
     var lastRandomValue, exampleArray = [-84, -56, -28, 0, 28, 56, 84, 112, 140, 168, 196, 224, 252, 280, 308, 336, 364, 392, 420, 448, 476, 504, 532, 560];
 
-    //Coordenadas obstaculos
-    var CoorXCam = 500;
-    var CoorYCam = 300;
-
     //Coordenadas iniciales
     var CoorX = 350;
     var CoorY = 0;
@@ -199,15 +195,15 @@ var game = (function () {
             paintEscena();
         }, false);
 
-        // Carga de la imagen del fondo del juego
+        // Carga de la imagen del fin de juego
         imgGameOver = new Image();
         imgGameOver.src = 'images/gameOver.png';
         imgGameOver.addEventListener('load', function () {
-            // Este trozo de código se ejecutará de manera asíncrona cuando la imagen se haya realmente cargado.
             imgCargadas++;
             paintEscena();
         }, false);
 
+        // Carga de la imagen del avion
         imgAvion = new Image();
         imgAvion.src = 'images/avion.png';
         imgAvion.addEventListener('load', function () {
@@ -241,11 +237,10 @@ var game = (function () {
             }
         });
 
-        // Carga de la imagen del fondo del juego
+        // Carga de la imagen del fondo de nube
         imgNube = new Image();
         imgNube.src = 'images/nube.png';
         imgNube.addEventListener('load', function () {
-            // Este trozo de código se ejecutará de manera asíncrona cuando la imagen se haya realmente cargado.
             imgCargadas++;
             paintEscena();
         }, false);
@@ -271,8 +266,8 @@ var game = (function () {
 
 
     /**
-     * Pintamos las dos imágenes que componen el fondo del juego
-     */
+     * Pintamos las imagenes que componen al juego
+    **/
     function paintFondo() {
         // Pinto el fondo de la escena
         ctx.drawImage(imgFondo, 0, 0, 899, 560);
@@ -286,7 +281,7 @@ var game = (function () {
 
     function moverDerecha() {
         if (terminar == false) {
-            //imgPelota = this.CoorX + 5;
+            
             CoorX = CoorX + 28;
 
             ctx.clearRect(CoorX - 28, CoorY, CoorX + WIDTH, CoorY + HEIGHT);
@@ -307,7 +302,7 @@ var game = (function () {
 
     function moverIzquierda() {
         if (terminar == false) {
-            //imgPelota = this.CoorX + 5;
+            
             CoorX = CoorX - 28;
             ctx.clearRect(CoorX + 28, CoorY, CoorX + WIDTH, CoorY + HEIGHT);
         }
@@ -321,7 +316,7 @@ var game = (function () {
 
     function moverArriba() {
         if (terminar == false) {
-            //imgPelota = this.CoorX + 5;
+            
             CoorY = CoorY - 28;
             ctx.clearRect(CoorX, CoorY + 28, CoorX + WIDTH, CoorY + HEIGHT);
             if (CoorY < 0) {
@@ -332,7 +327,7 @@ var game = (function () {
 
     function moverAbajo() {
         if (terminar == false) {
-            //imgPelota = this.CoorX + 5;
+        
             CoorY = CoorY + 28;
             ctx.clearRect(CoorX, CoorY - 28, CoorX + WIDTH, CoorY + HEIGHT);
 
